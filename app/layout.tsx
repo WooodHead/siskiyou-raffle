@@ -1,7 +1,7 @@
 import '../public/antd.min.css'
 import './globals.css'
 
-import AntdProvider from '@/app/components/AntdProvider'
+import AntdProvider from '@/app/components/Providers'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 

@@ -1,10 +1,8 @@
 'use client'
 
-
 import { StyleProvider } from '@ant-design/cssinjs'
 
-
-export default function AntdProvider({ children }: React.PropsWithChildren<{}>) {
+export default function Providers({ children }: React.PropsWithChildren<{}>) {
   return (
     <StyleProvider hashPriority='high'>
       {children}
