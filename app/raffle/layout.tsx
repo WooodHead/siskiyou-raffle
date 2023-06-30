@@ -9,6 +9,7 @@ export default async function RaffleLayout({
 }) {
   const session = await getServerSession(authOptions)
   const isLoggedIn = !!session?.user
+  
   if (!isLoggedIn) {
     return <Unauthorized />
   }
