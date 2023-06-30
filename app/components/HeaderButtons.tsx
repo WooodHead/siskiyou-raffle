@@ -1,27 +1,30 @@
 'use client'
 
-import { signIn, signOut } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { Button } from 'antd'
 import { useState } from 'react'
 import { ErrorAlert } from './Alerts'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 
-const LogInButton = () => {
+const LogInButton = ({ status }: any) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const handleSignIn = async () => {
     setLoading(true)
-    const res = await signIn('google', { callbackUrl: '/' })
-    if (res?.error) {
-      console.error(res.error)
+    const res = await signIn('google', { callbackUrl: '/raffle' })
+
+    if (res?.ok) {
+      setError('')
       setLoading(false)
-      setError(res.error)
       return
     }
 
-    if (res?.ok) {
+    if (res?.error) {
+      console.error(res.error)
+      setError(res.error)
       setLoading(false)
-      setError('')
       return
     }
   }
@@ -43,19 +46,41 @@ const LogInButton = () => {
 
 const LogOutButton = () => {
   const [loading, setLoading] = useState(false)
-  const handleSignOut = () => {
+  const handleLogOut = () => {
     setLoading(true)
-    signOut({ callbackUrl: '/' })
+    signOut()
   }
   return (
     <div>
-      <Button size='large' loading={loading} onClick={handleSignOut}>
+      <Button size='large' loading={loading} onClick={handleLogOut}>
         Sign out
       </Button>
     </div>
   )
 }
 
-export default function HeaderButtons({ isLoggedIn }: { isLoggedIn: boolean }) {
-  return isLoggedIn ? <LogOutButton /> : <LogInButton />
+const AuthenticatedButtons = () => {
+  const pathname = usePathname()
+  const linkToUse = pathname === '/raffle' ? '/' : '/raffle'
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: '1rem',
+      }}
+    >
+      <Link href={linkToUse}>
+        <Button size='large' type='primary'>
+          {linkToUse === '/' ? 'Home' : 'Raffle'}
+        </Button>
+      </Link>
+      <LogOutButton />
+    </div>
+  )
+}
+
+export default function HeaderButtons() {
+  const { status } = useSession()
+  return status === 'authenticated' ? <AuthenticatedButtons /> : <LogInButton />
 }

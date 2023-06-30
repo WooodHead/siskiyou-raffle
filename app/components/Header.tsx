@@ -1,11 +1,7 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import SiskiyouLogo from '@/app/components/SiskiyouLogo'
 import HeaderButtons from '@/app/components/HeaderButtons'
 
 export default async function Header() {
-  const data = await getServerSession(authOptions)
-  const isLoggedIn = !!data?.user
   return (
     <header
       style={{
@@ -18,7 +14,7 @@ export default async function Header() {
       }}
     >
       <SiskiyouLogo />
-      <HeaderButtons isLoggedIn={isLoggedIn} />
+      <HeaderButtons />
     </header>
   )
 }

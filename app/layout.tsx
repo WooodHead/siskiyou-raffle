@@ -25,7 +25,7 @@ const MainContent = ({ children }: React.PropsWithChildren) => (
   <div style={{ gridArea: 'main' }}>{children}</div>
 )
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
