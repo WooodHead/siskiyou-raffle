@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predev": "ts-node --project ./tsconfig.node.json ./scripts/genAntdCss.tsx",
+    "prebuild": "cross-env NODE_ENV=production ts-node --project ./tsconfig.node.json ./scripts/genAntdCss.tsx"
   },
   "dependencies": {
-    "@nextui-org/react": "1.0.0-beta.13",
+    "@ant-design/icons": "^5.1.4",
+    "@ant-design/static-style-extract": "^1.0.1",
     "@types/node": "20.3.2",
     "@types/pg": "^8.10.2",
     "@types/react": "18.2.14",
@@ -28,5 +31,12 @@
   },
   "volta": {
     "node": "18.16.1"
+  },
+  "devDependencies": {
+    "@ant-design/cssinjs": "^1.10.1",
+    "antd": "^5.6.3",
+    "cross-env": "^7.0.3",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.6.0"
   }
 }
