@@ -1,25 +1,41 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import { db } from './database'
 
-import { useSession, signIn, signOut } from 'next-auth/react'
+// import { useSession, signIn, signOut } from 'next-auth/react'
 
-export default function Component() {
-  const { data: session } = useSession()
-  const { accessToken } = session || {}
-  console.log({ accessToken })
-  if (session) {
-    return (
-      <>
-        Signed in as {session?.user?.email || 'undefined session user'} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
-  }
+// function LoginButton() {
+//   const { data: session } = useSession()
+//   if (session) {
+//     return (
+//       <>
+//         Signed in as {session?.user?.email} <br />
+//         <button onClick={() => signOut()}>Sign out</button>
+//       </>
+//     )
+//   }
+//   return (
+//     <>
+//       Not signed in <br />
+//       <button onClick={() => signIn()}>Sign in</button>
+//     </>
+//   )
+// }
+
+// export default function HomePage() {
+//   return <div>
+//     <h1>Fuck off</h1>
+//     <LoginButton />
+//   </div>
+// }
+
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { SigninButton } from './Buttons'
+
+export default async function Page() {
+  const session = await getServerSession(authOptions)
   return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
+    <div>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
+      <SigninButton />
+    </div>
   )
 }
